@@ -8,7 +8,7 @@ import java.util.Random;
 class MatchController {
     Team team1;
     Team team2;
-    int oversPerInnings = 5;
+    int oversPerInnings = 1;
 
     public MatchController(Team team1, Team team2) {
         this.team1 = team1;
@@ -27,12 +27,12 @@ class MatchController {
 
         for(int over = 0; over < this.oversPerInnings; ++over) {
             System.out.print("Over " + (over + 1) + ": ");
-
+            Scoreboard scoreboard = new Scoreboard(battingTeam);
             for(int ball = 0; ball < 6; ++ball) {
-                Scoreboard scoreboard = new Scoreboard(battingTeam);
+
                 String outcome = this.randomOutcome(scoreboard.batsman);
                 scoreboard.update(outcome);
-                System.out.print(outcome + " ");
+                System.out.println(outcome + " ");
                 if (outcome.equals("W")) {
                     ++battingTeam.wickets;
                     if (battingTeam.wickets == 10) {
@@ -42,7 +42,6 @@ class MatchController {
                     battingTeam.score += Integer.parseInt(outcome);
                 }
             }
-
             System.out.println();
         }
 
@@ -61,7 +60,6 @@ class MatchController {
             return outcomes[random.nextInt(outcomes.length)];
         }
     }
-
 
     private void printResult() {
         if (this.team1.score > this.team2.score) {
