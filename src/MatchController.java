@@ -8,7 +8,7 @@ import java.util.Random;
 class MatchController {
     Team team1;
     Team team2;
-    int oversPerInnings = 5;
+    int oversPerInnings = 1;
 
     public MatchController(Team team1, Team team2) {
         this.team1 = team1;
@@ -27,10 +27,12 @@ class MatchController {
 
         for(int over = 0; over < this.oversPerInnings; ++over) {
             System.out.print("Over " + (over + 1) + ": ");
-
+            Scoreboard scoreboard = new Scoreboard(battingTeam);
             for(int ball = 0; ball < 6; ++ball) {
-                String outcome = this.randomOutcome();
-                System.out.print(outcome + " ");
+
+                String outcome = this.randomOutcome(scoreboard.batsman);
+                scoreboard.update(outcome);
+                System.out.println(outcome + " ");
                 if (outcome.equals("W")) {
                     ++battingTeam.wickets;
                     if (battingTeam.wickets == 10) {
@@ -40,17 +42,23 @@ class MatchController {
                     battingTeam.score += Integer.parseInt(outcome);
                 }
             }
-
             System.out.println();
         }
 
         System.out.println(battingTeam.name + ": " + battingTeam.score + "/" + battingTeam.wickets);
     }
 
-    private String randomOutcome() {
+    private String randomOutcome(Player batsman) {
         Random random = new Random();
-        String[] outcomes = new String[]{"0", "1", "2", "3", "4", "5", "6", "W"};
-        return outcomes[random.nextInt(outcomes.length)];
+        if (batsman.type == PlayerType.BATSMAN) {
+            // Higher probability of runs for batsmen
+            String[] outcomes = {"0", "1", "1", "2", "2", "3", "4", "6", "W"}; // Increased chance of 1s and 2s
+            return outcomes[random.nextInt(outcomes.length)];
+        } else {
+            // Default outcome distribution for bowlers
+            String[] outcomes = {"0", "1", "2", "3", "4", "5", "6", "W"};
+            return outcomes[random.nextInt(outcomes.length)];
+        }
     }
 
     private void printResult() {
