@@ -4,15 +4,17 @@ class Scoreboard {
     int balls;
     Team battingTeam;
     Player batsman;
+    Player bowler;
     int currentRun;
     int totalRuns;
     int wickets;
 
-    public Scoreboard(Team battingTeam) {
+    public Scoreboard(Team battingTeam, Team bowlingTeam) {
         this.overs = 0;
         this.balls = 0;
         this.battingTeam = battingTeam;
         this.batsman = battingTeam.players.get(0); // Assume first player is a batsman
+        this.bowler = bowlingTeam.players.get(0);
         this.currentRun = 0;
         this.totalRuns = 0;
         this.wickets = 0;

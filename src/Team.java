@@ -5,6 +5,7 @@ import java.util.List;
 class Team {
     String name;
     List<Player> players = new ArrayList<>();
+    int id;
     int score = 0;
     int wickets = 0;
 
