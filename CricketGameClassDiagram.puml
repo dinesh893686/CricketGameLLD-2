@@ -1,0 +1,52 @@
+@startuml
+
+class Team {
+  - int id
+  - String name
+  - int score
+  - int wickets
+  + List<Player> players
+  + Team(String name)
+  + void addPlayer(Player player1)
+}
+
+class Player {
+  - int id
+  - String name
+  - PlayerType type
+  + Player(String name, PlayerType type)
+}
+
+enum PlayerType {
+  BATSMAN
+  BOWLER
+}
+
+class Scoreboard {
+  - int overs
+  - int balls
+  - Team battingTeam
+  - int totalRuns
+  - int wickets
+  - Player batsman
+  - int currentRun
+  + Scoreboard(Team battingTeam)
+  + void update(String outcome)
+  + void printScoreboard()
+}
+
+class MatchController {
+  - Team team1
+  - Team team2
+  - int oversPerInnings
+  + MatchController(Team team1, Team team2)
+  + void simulateMatch()
+  - void simulateInnings(Team battingTeam, Team bowlingTeam)
+  - String randomOutcome(Player batsman)
+  - void printResult()
+}
+
+Team "1" -- "*" Player
+Scoreboard "1" -- "1" Player : current batsman
+
+@enduml
